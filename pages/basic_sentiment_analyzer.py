@@ -4,17 +4,16 @@ import streamlit as st
 st.title("Sentiment Analyzer")
 st.subheader("Enter your name and how you feel today")
 
-# Sidebar for input fields
-st.sidebar.header("Input Information")
-name = st.sidebar.text_input("What's your name?")
-message = st.sidebar.text_area("Tell me what you feel today")
+# Input fields for name and message
+name = st.text_input("What's your name?")
+message = st.text_area("Tell me what you feel today")
 
 # Lists of positive and negative words
 positive_words = ['good', 'excited', 'happy', 'great', 'fantastic', 'wonderful']
 negative_words = ['bad', 'sad', 'angry', 'terrible', 'awful', 'miserable']
 
 # Function to analyze sentiment and display result
-def sayFeeling():
+def analyze_sentiment():
     if name and message:
         st.markdown("---")  # Horizontal line for separation
         st.write(f"Hi, {name}!")
@@ -28,8 +27,16 @@ def sayFeeling():
 
         # Determine sentiment based on counts
         if positive_count > negative_count:
-            st.markdown("---")
-            st.markdown("<span style='color:green; font-size: 1.2em;'>That's good! 😊</span>", unsafe_allow_html=True)
+            st.write("That's good! 😊")
         elif negative_count > positive_count:
-            st.markdown("---")
-            st.markdown("<span style
+            st.write("I hope you feel better soon. 😞")
+        else:
+            st.write("Keep going! 😐")
+    else:
+        st.warning("Please enter both your name and how you feel today.")
+
+# Button to trigger sentiment analysis
+if st.button('Analyze Sentiment'):
+    analyze_sentiment()
+
+# Additional content or features can be added below
