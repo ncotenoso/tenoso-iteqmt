@@ -4,16 +4,17 @@ import streamlit as st
 st.title("Sentiment Analyzer")
 st.subheader("Enter your name and how you feel today")
 
-# Input fields for name and message
-name = st.text_input("What's your name?")
-message = st.text_area("Tell me what you feel today")
+# Sidebar for input fields
+st.sidebar.header("Input Information")
+name = st.sidebar.text_input("What's your name?")
+message = st.sidebar.text_area("Tell me what you feel today")
 
 # Lists of positive and negative words
 positive_words = ['good', 'excited', 'happy', 'great', 'fantastic', 'wonderful']
 negative_words = ['bad', 'sad', 'angry', 'terrible', 'awful', 'miserable']
 
 # Function to analyze sentiment and display result
-def analyze_sentiment():
+def sayFeeling():
     if name and message:
         st.markdown("---")  # Horizontal line for separation
         st.write(f"Hi, {name}!")
@@ -25,19 +26,10 @@ def analyze_sentiment():
         positive_count = sum(word in positive_words for word in words)
         negative_count = sum(word in negative_words for word in words)
 
+        # Determine sentiment based on counts
         if positive_count > negative_count:
-            st.markdown("---")  # Horizontal line for separation
-            st.write("That's good! :smile:")
+            st.markdown("---")
+            st.markdown("<span style='color:green; font-size: 1.2em;'>That's good! 😊</span>", unsafe_allow_html=True)
         elif negative_count > positive_count:
-            st.markdown("---")  # Horizontal line for separation
-            st.write("I hope you feel better soon. :disappointed:")
-        else:
-            st.markdown("---")  # Horizontal line for separation
-            st.write("Keep going! :neutral_face:")
-    else:
-        st.warning("Please enter both your name and how you feel today.")
-
-# Button to trigger sentiment analysis
-st.button('Analyze Sentiment', on_click=analyze_sentiment)
-
-# Additional content or features can be added below
+            st.markdown("---")
+            st.markdown("<span style
