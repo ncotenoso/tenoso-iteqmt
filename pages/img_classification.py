@@ -8,7 +8,7 @@ from io import BytesIO
 import base64
 
 
-with open('pages/sky_condition_model.p', 'rb') as f:
+with open('pages/clothes.p', 'rb') as f:
     model = pickle.load(f)
 
 img2vec = Img2Vec()
@@ -16,11 +16,11 @@ img2vec = Img2Vec()
 
 
 ## Streamlit Web App Interface
-st.set_page_config(layout="wide", page_title="Image Classification for Weather")
+st.set_page_config(layout="wide", page_title="Image Classification for Clothes
 
-st.write("## Let's try to see what weather is in the image!")
+
 st.write(
-    ":grin: We'll try to predict the weather depicted in your uploaded image :grin:"
+    ":grin: We'll try to predict the clothes depicted in your uploaded image :grin:"
 )
 st.sidebar.write("## Upload and download :gear:")
 
