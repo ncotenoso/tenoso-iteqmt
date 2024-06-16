@@ -2,22 +2,16 @@ import pickle
 from img2vec_pytorch import Img2Vec
 from PIL import Image
 import streamlit as st
-# from rembg import remove
-from PIL import Image
 from io import BytesIO
-import base64
 
-
+# Load the trained model
 with open('pages/clothes.p', 'rb') as f:
     model = pickle.load(f)
 
 img2vec = Img2Vec()
 
-
-
-## Streamlit Web App Interface
-st.set_page_config(layout="wide", page_title="Image Classification for Clothes
-
+# Streamlit Web App Interface
+st.set_page_config(layout="wide", page_title="Image Classification for Clothes")
 
 st.write(
     ":grin: We'll try to predict the clothes depicted in your uploaded image :grin:"
@@ -26,32 +20,25 @@ st.sidebar.write("## Upload and download :gear:")
 
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
-# Download the fixed image
-# @st.cache_data 
 def convert_image(img):
     buf = BytesIO()
-    img.save(buf, format="jpg")
+    img.save(buf, format="JPEG")
     byte_im = buf.getvalue()
     return byte_im
 
-# @st.cache_data 
 def fix_image(upload):
     image = Image.open(upload)
     col1.write("Image to be predicted :camera:")
     col1.image(image)
 
-    # fixed = remove(image)
-    col2.write("Category :wrench:")
-    # image_path = './example/rain.jpeg'
-    img = Image.open(my_upload)
+    # Process image and make prediction
+    img = image.convert('RGB')
     features = img2vec.get_vec(img)
-    pred = model.predict([features])
+    pred = model.predict([features])[0]
 
-    # print(pred)
+    col2.write("Category :wrench:")
     col2.header(pred)
-    # st.sidebar.markdown("\n")
-    # st.sidebar.download_button("Download fixed image", convert_image(fixed), "fixed.png", "image/png")
-
+    st.sidebar.download_button("Download fixed image", convert_image(image), "fixed.jpg", "image/jpeg")
 
 col1, col2 = st.columns(2)
 my_upload = st.sidebar.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
@@ -63,4 +50,3 @@ if my_upload is not None:
         fix_image(upload=my_upload)
 else:
     st.write("by koalatech...")
-    # fix_image("./zebra.jpg")
